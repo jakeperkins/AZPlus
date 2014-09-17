@@ -67,7 +67,7 @@ namespace AZ.lib.UnitTests
 
         private void WhenABookIsAddedToTheWishList()
         {
-            _wishList.AddBook(new Book() {Author = "Matt Eagin", Title = "Testing"});
+            _wishList.AddBook(new Book {Author = "Matt Eagin", Title = "Testing"});
         }
     }
 }
