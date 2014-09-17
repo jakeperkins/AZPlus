@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AZPlus", "AZPlus.csproj", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AZ.lib", "..\AZ.lib\AZ.lib.csproj", "{524D5E5B-1EBF-4CDC-89FD-613AC2009B42}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AZ.lib.Tests", "AZ.lib.Tests\AZ.lib.Tests.csproj", "{B2D16F17-41B1-45CE-B025-D891B4A2F060}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{524D5E5B-1EBF-4CDC-89FD-613AC2009B42}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{524D5E5B-1EBF-4CDC-89FD-613AC2009B42}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{524D5E5B-1EBF-4CDC-89FD-613AC2009B42}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B2D16F17-41B1-45CE-B025-D891B4A2F060}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B2D16F17-41B1-45CE-B025-D891B4A2F060}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B2D16F17-41B1-45CE-B025-D891B4A2F060}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B2D16F17-41B1-45CE-B025-D891B4A2F060}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
