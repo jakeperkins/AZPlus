@@ -67,7 +67,7 @@ namespace AZ.lib.UnitTests
 
         private void WhenABookIsAddedToTheWishList()
         {
-            _wishList.AddBook(new Book {Author = "Matt Eagin", Title = "Testing"});
+            _wishList.AddBook(new Book {Author = Author, Title = Title});
         }
 
         [TestMethod]
@@ -118,6 +118,24 @@ namespace AZ.lib.UnitTests
         private void WhenABookIsAddedToTheWishList(string author, string title)
         {
             _wishList.AddBook(new Book {Author = author, Title = title});
+        }
+
+        [TestMethod]
+        public void CanSetBookClubFlag()
+        {
+            GivenAWishListBook();
+            WhenBookIsBookClubOption();
+            ThenBookClubSelectionShouldBeTrue();
+        }
+
+        private void ThenBookClubSelectionShouldBeTrue()
+        {
+            _wishListBook.IsBookClubSelection.ShouldBeTrue();
+        }
+
+        private void WhenBookIsBookClubOption()
+        {
+            _wishListBook.IsBookClubSelection = true;
         }
 
         private const string Title = "Testing";
