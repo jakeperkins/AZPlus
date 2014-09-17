@@ -13,6 +13,11 @@ namespace AZ.lib
             Books = new List<WishListBook>();
         }
 
-        public IEnumerable<WishListBook> Books { get; set; }
+        public IList<WishListBook> Books { get; set; }
+
+        public void AddBook(Book book)
+        {
+            Books.Add(new WishListBook {BookDetails = book});
+        }
     }
 }

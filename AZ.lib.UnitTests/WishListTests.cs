@@ -1,7 +1,6 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Should;
+using System.Linq;
 
 namespace AZ.lib.UnitTests
 {
@@ -48,7 +47,7 @@ namespace AZ.lib.UnitTests
 
         private void ThenNumberOfBooksShouldBe(int bookCount)
         {
-            _wishList.Books.Count().ShouldEqual(0);
+            _wishList.Books.Count().ShouldEqual(bookCount);
         }
 
         [TestMethod]
@@ -56,6 +55,19 @@ namespace AZ.lib.UnitTests
         {
             GivenAWishList();
             ThenNumberOfBooksShouldBe(0);
+        }
+
+        [TestMethod]
+        public void CanAddABookToTheWishList()
+        {
+            GivenAWishList();
+            WhenABookIsAddedToTheWishList();
+            ThenNumberOfBooksShouldBe(1);
+        }
+
+        private void WhenABookIsAddedToTheWishList()
+        {
+            _wishList.AddBook(new Book() {Author = "Matt Eagin", Title = "Testing"});
         }
     }
 }
