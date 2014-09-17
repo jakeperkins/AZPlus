@@ -1,4 +1,7 @@
-﻿namespace AZ.lib
+﻿using System;
+using System.Collections;
+
+namespace AZ.lib
 {
 	public class Book
 	{
