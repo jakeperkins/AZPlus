@@ -4,9 +4,9 @@ namespace AZ.lib
 	{
 		public WishListBook()
 		{
-			BookDetails = new Book();
+			Book = new Book();
 		}
 		public bool IsBookClubSelection { get; set; }
-		public Book BookDetails { get; set; }
+		public Book Book { get; set; }
 	}
 }

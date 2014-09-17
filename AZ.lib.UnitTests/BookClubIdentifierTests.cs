@@ -76,13 +76,13 @@ namespace AZ.lib.UnitTests
 
 		private void ThenTheBookOnTheBookClubListsIs(Book book)
 		{
-			WishListBook returnedBook = (_decoratedWishlist.Books.Select(x => x).First(x => x.BookDetails.IsSameTitleAndAuthor(book)));
+			WishListBook returnedBook = (_decoratedWishlist.Books.Select(x => x).First(x => x.Book.IsSameTitleAndAuthor(book)));
 			returnedBook.IsBookClubSelection.ShouldBeTrue();
 		}
 
 		private void ThenTheBookNotOnTheBookClubListIs(Book book)
 		{
-			WishListBook returnedBook = (_decoratedWishlist.Books.Select(x => x).First(x => x.BookDetails.IsSameTitleAndAuthor(book)));
+			WishListBook returnedBook = (_decoratedWishlist.Books.Select(x => x).First(x => x.Book.IsSameTitleAndAuthor(book)));
 			returnedBook.IsBookClubSelection.ShouldBeFalse();
 		}
 

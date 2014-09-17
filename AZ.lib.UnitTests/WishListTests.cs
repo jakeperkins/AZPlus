@@ -26,7 +26,7 @@ namespace AZ.lib.UnitTests
 
         private void ThenBookDetailsShouldNotBeNull()
         {
-            _wishListBook.BookDetails.ShouldNotBeNull();
+            _wishListBook.Book.ShouldNotBeNull();
         }
 
         private void ThenBookClubSelectionShouldBeFalse()

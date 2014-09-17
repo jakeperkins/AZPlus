@@ -17,15 +17,15 @@ namespace AZ.lib
             var isBookAlreadyAdded = false; 
             foreach (var wishListBook in Books)
             {
-                isBookAlreadyAdded = wishListBook.BookDetails.IsSameTitleAndAuthor(book);
+                isBookAlreadyAdded = wishListBook.Book.IsSameTitleAndAuthor(book);
             }
             if (!isBookAlreadyAdded)
-                Books.Add(new WishListBook {BookDetails = book});
+                Books.Add(new WishListBook {Book = book});
         }
 
         public void RemoveBook(Book book)
         {
-            var booksToRemove = (from b in Books where b.BookDetails.IsSameTitleAndAuthor(book) select b).ToList();
+            var booksToRemove = (from b in Books where b.Book.IsSameTitleAndAuthor(book) select b).ToList();
             if (!booksToRemove.Any()) return;
             foreach (var wishListBook in booksToRemove)
             {

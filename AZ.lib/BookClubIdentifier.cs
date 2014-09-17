@@ -8,7 +8,7 @@
 			{
 				foreach (var wishListBook in wishList.Books)
 				{
-					if (wishListBook.BookDetails.IsSameTitleAndAuthor(bookClubBook))
+					if (wishListBook.Book.IsSameTitleAndAuthor(bookClubBook))
 					{
 						wishListBook.IsBookClubSelection = true;
 					}
