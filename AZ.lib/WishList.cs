@@ -10,9 +10,9 @@ namespace AZ.lib
     { 
         public WishList()
         {
-            Items = new List<object>();
+            Books = new List<WishListBook>();
         }
 
-        public IList<object> Items { get; set; }
+        public IEnumerable<WishListBook> Books { get; set; }
     }
 }
