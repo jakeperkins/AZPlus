@@ -12,27 +12,48 @@ namespace AZ.lib.UnitTests
 		public void Setup()
 		{
 			_wishList = new WishList();
-			_bookClubList = new BookClubList();
+			_bookClub = new BookClub();
+
+			_bookOne = new Book
+			{
+				Title = "someTitle",
+				Author = "someAuthor"
+			};
+			_bookTwo = new Book
+			{
+				Title = "anotherTitle",
+				Author = "anotherAuthor"
+			};
 		}
 
 		[TestMethod]
 		public void ShouldCreateWishListWithBookClubBooks()
 		{
-			GivenAWishlist(new []{
-				new Book
-				{
-					Title = "someTitle", Author = "someAuthor"
-				}, 
-			
-				new Book
-				{
-					Title = "anotherTitle", Author = "anotherAuthor"
-				}});
-
-			GivenABookClubList();
+			GivenAWishlist(new []{_bookOne, _bookTwo});
+			GivenABookClubList(new [] {_bookTwo});
 			WhenBookClubSelectionsAreIdentified();
-			ThenTheBookOnTheBookClubListsIs();
-			ThenTheBookNotOnTheBookClubListIs();
+			ThenTheBookOnTheBookClubListsIs(_bookTwo);
+			ThenTheBookNotOnTheBookClubListIs(_bookOne);
+		}
+
+		[TestMethod]
+		public void ShouldCreateWishListWithAllBookClubBooks()
+		{
+			GivenAWishlist(new[] { _bookOne, _bookTwo });
+			GivenABookClubList(new[] { _bookOne, _bookTwo });
+			WhenBookClubSelectionsAreIdentified();
+			ThenTheBookOnTheBookClubListsIs(_bookTwo);
+			ThenTheBookOnTheBookClubListsIs(_bookOne);
+		}
+
+		[TestMethod]
+		public void ShouldCreateWishListWithNoBookClubBooks()
+		{
+			GivenAWishlist(new[] { _bookOne, _bookTwo });
+			GivenABookClubList(new List<Book>());
+			WhenBookClubSelectionsAreIdentified();
+			ThenTheBookNotOnTheBookClubListIs(_bookTwo);
+			ThenTheBookNotOnTheBookClubListIs(_bookOne);
 		}
 
 		private void GivenAWishlist(IEnumerable<Book> books)
@@ -45,25 +66,29 @@ namespace AZ.lib.UnitTests
 
 		private void GivenABookClubList(IEnumerable<Book> books)
 		{
-			throw new System.NotImplementedException();
+			_bookClub.Books = books;
 		}
 
 		private void WhenBookClubSelectionsAreIdentified()
 		{
-			_decoratedWishlist = new BookClubIdentifier().Identify(_wishList, _bookClubList);
+			_decoratedWishlist = new BookClubIdentifier().Identify(_wishList, _bookClub);
 		}
 
 		private void ThenTheBookOnTheBookClubListsIs(Book book)
 		{
-			_decoratedWishlist.Books.Contains(new WishListBook {BookDetails = book, IsBookClubSelection = true}).ShouldBeTrue();
+			WishListBook returnedBook = (_decoratedWishlist.Books.Select(x => x).First(x => x.BookDetails.IsSameTitleAndAuthor(book)));
+			returnedBook.IsBookClubSelection.ShouldBeTrue();
 		}
 
 		private void ThenTheBookNotOnTheBookClubListIs(Book book)
 		{
-			_decoratedWishlist.Books.Contains(new WishListBook {BookDetails = book, IsBookClubSelection = true}).ShouldBeFalse();
+			WishListBook returnedBook = (_decoratedWishlist.Books.Select(x => x).First(x => x.BookDetails.IsSameTitleAndAuthor(book)));
+			returnedBook.IsBookClubSelection.ShouldBeFalse();
 		}
 
-		private BookClubList _bookClubList;
+		private Book _bookOne;
+		private Book _bookTwo;
+		private BookClub _bookClub;
 		private WishList _wishList;
 		private WishList _decoratedWishlist;
 	}

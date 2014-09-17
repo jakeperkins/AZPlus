@@ -1,12 +1,21 @@
-﻿using System.Collections.Generic;
-
-namespace AZ.lib
+﻿namespace AZ.lib
 {
 	public class BookClubIdentifier
 	{
-		public IEnumerable<WishListBook> Identify(IEnumerable<WishListBook> wishListBooks, IEnumerable<Book> bookClubList)
+		public WishList Identify(WishList wishList, BookClub bookClub)
 		{
-			throw new System.NotImplementedException();
+			foreach (var bookClubBook in bookClub.Books)
+			{
+				foreach (var wishListBook in wishList.Books)
+				{
+					if (wishListBook.BookDetails.IsSameTitleAndAuthor(bookClubBook))
+					{
+						wishListBook.IsBookClubSelection = true;
+					}
+				}
+			}
+
+			return wishList;
 		}
 	}
 }
