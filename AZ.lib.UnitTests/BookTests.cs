@@ -14,12 +14,21 @@ namespace AZ.lib.UnitTests
 		}
 
 		[TestMethod]
-		public void ShouldCompareTwoBooks()
+		public void ShouldCompareTwoBooksThatAreDifferent()
 		{
 			GivenBookOneIs("SomeTitle", "SomeAuthor");
 			GivenBookTwoIs("AnotherTitle", "AnotherAuthor");
 			WhenTheTwoBooksAreCompared();
 			ThenTheTwoBooksAreNotTheSame();
+		}
+
+		[TestMethod]
+		public void ShouldCompareTwoBooksThatAreTheSame()
+		{
+			GivenBookOneIs("SomeTitle", "SomeAuthor");
+			GivenBookTwoIs("SomeTitle", "SomeAuthor");
+			WhenTheTwoBooksAreCompared();
+			ThenTheTwoBooksAreTheSame();
 		}
 
 		private void GivenBookOneIs(string title, string author)
@@ -42,6 +51,11 @@ namespace AZ.lib.UnitTests
 		private void ThenTheTwoBooksAreNotTheSame()
 		{
 			Assert.IsFalse(_bookComparison);
+		}
+
+		private void ThenTheTwoBooksAreTheSame()
+		{
+			Assert.IsTrue(_bookComparison);
 		}
 
 		private bool _bookComparison;
