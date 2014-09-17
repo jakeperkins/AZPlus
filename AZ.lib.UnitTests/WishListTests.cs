@@ -69,5 +69,60 @@ namespace AZ.lib.UnitTests
         {
             _wishList.AddBook(new Book {Author = "Matt Eagin", Title = "Testing"});
         }
+
+        [TestMethod]
+        public void CannotAddSameBookToWishList()
+        {
+            GivenAWishList();
+            WhenABookIsAddedToTheWishList(Author, Title);
+            WhenABookIsAddedToTheWishList(Author, Title);
+            ThenNumberOfBooksShouldBe(1);
+        }
+
+        [TestMethod]
+        public void CanAddDifferentBookToWishList()
+        {
+            GivenAWishList();
+            WhenABookIsAddedToTheWishList(Author, Title);
+            WhenABookIsAddedToTheWishList(Author, OtherTitle);
+            ThenNumberOfBooksShouldBe(2);
+        }
+
+        [TestMethod]
+        public void CanRemoveABookFromWishList()
+        {
+            GivenAWishListWithBooksAdded();
+            WhenABookIsRemovedFromTheWishList(Author, Title);
+            ThenNumberOfBooksShouldBe(0);
+        }
+
+        [TestMethod]
+        public void CanAttemptToRemoveABookFromEmptyWishList()
+        {
+            GivenAWishList();
+            WhenABookIsRemovedFromTheWishList(Author, Title);
+            ThenNumberOfBooksShouldBe(0);
+        }
+
+        private void WhenABookIsRemovedFromTheWishList(string author, string title)
+        {
+            _wishList.RemoveBook(new Book { Author= author, Title = title});
+        }
+
+        private void GivenAWishListWithBooksAdded()
+        {
+            GivenAWishList();
+            WhenABookIsAddedToTheWishList(Author, Title);
+        }
+
+        private void WhenABookIsAddedToTheWishList(string author, string title)
+        {
+            _wishList.AddBook(new Book {Author = author, Title = title});
+        }
+
+        private const string Title = "Testing";
+        private const string Author = "Matt Eagin";
+
+        private const string OtherTitle = "Refactoring";
     }
 }
