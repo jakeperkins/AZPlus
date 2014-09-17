@@ -35,12 +35,14 @@ namespace AZ.lib.UnitTests
 		{
 			_bookOne.Title = title;
 			_bookOne.Author = author;
+			_bookOne.BookType = BookType.Hardback;
 		}
 
 		private void GivenBookTwoIs(string title, string author)
 		{
 			_bookTwo.Title = title;
 			_bookTwo.Author = author;
+			_bookTwo.BookType = BookType.Hardback;
 		}
 
 		private void WhenTheTwoBooksAreCompared()
