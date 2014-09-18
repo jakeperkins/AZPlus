@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace AZ.lib
 {
@@ -10,8 +11,10 @@ namespace AZ.lib
 			{
 				if (UserIsInBookClub(user))
 				{
-					var bookClubBooks = user.BookClub.Books;
+					var bookClubBooks = user.BookClub.Books.ToList();
 					var kindleBooks = user.Kindle.Books;
+
+					bookClubBooks = RemoveOwnedBooks(bookClubBooks, kindleBooks);
 
 					foreach (var bookClubBook in bookClubBooks)
 					{
@@ -20,6 +23,22 @@ namespace AZ.lib
 				}
 			}
 			return user.Kindle;
+		}
+
+		private List<Book> RemoveOwnedBooks(List<Book> bookClubBooks, IList<KindleBook> kindleBooks)
+		{
+			var books = bookClubBooks.ToList();
+			foreach (var book in bookClubBooks)
+			{
+				foreach (var kindleBook in kindleBooks)
+				{
+					if (book.IsSameTitleAndAuthor(kindleBook.Book))
+					{
+						books.Remove(book);
+					}
+				}
+			}
+			return books;
 		}
 
 		private bool UserIsInBookClub(User user)

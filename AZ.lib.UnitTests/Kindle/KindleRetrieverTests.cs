@@ -51,6 +51,17 @@ namespace AZ.lib.UnitTests.Kindle
 			ThenTheUserStillHasNoKindle();
 		}
 
+		[TestMethod]
+		public void ShouldNotAddPreviewChaptersIfUserAlreadyOwnsBook()
+		{
+			GivenAUserWithAKindle();
+			GivenAUsersKindleHasBooks(new BookBuilder().WithAuthor("author1").WithTitle("title"));
+			GivenAUsersBookClubHasBooks(new BookBuilder().WithAuthor("author1").WithTitle("title"), new BookBuilder().WithAuthor("author2").WithTitle("title2"));
+			WhenAmazonTriesToSetupAUsersKindle();
+			ThenTheKindleHasPreviewChaptersFor(new BookBuilder().WithAuthor("author2").WithTitle("title2"));
+			ThenTheKindleDoesNotHavePreviewChaptersFor(new BookBuilder().WithAuthor("author1").WithTitle("title"));
+		}
+
 		private void ThenTheKindleHasNoNewBooksOrPreviewChapters()
 		{
 			_user.Kindle.Books.Count.ShouldEqual(0);
@@ -64,6 +75,11 @@ namespace AZ.lib.UnitTests.Kindle
 		private void ThenTheKindleHasPreviewChaptersFor(Book book)
 		{
 			_returnedKindle.Books.Select(x => x).First(x => x.Book.IsSameTitleAndAuthor(book)).ShowOnlyPreviewChapters.ShouldBeTrue();
+		}
+
+		private void ThenTheKindleDoesNotHavePreviewChaptersFor(Book book)
+		{
+			_returnedKindle.Books.Select(x => x).First(x => x.Book.IsSameTitleAndAuthor(book)).ShowOnlyPreviewChapters.ShouldBeFalse();
 		}
 
 		private void WhenAmazonTriesToSetupAUsersKindle()
@@ -80,6 +96,11 @@ namespace AZ.lib.UnitTests.Kindle
 		private void GivenAUserWithAKindle()
 		{
 			_user.Kindle = new lib.Kindle {Books = new List<KindleBook>()};
+		}
+
+		private void GivenAUsersKindleHasBooks(Book book)
+		{
+			_user.Kindle.Books.Add(new KindleBook {Book = book, ShowOnlyPreviewChapters = false});
 		}
 
 		private void GivenAUserWithNoKindle()
