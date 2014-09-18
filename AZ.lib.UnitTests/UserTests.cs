@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Should;
 
 namespace AZ.lib.UnitTests
@@ -9,7 +7,6 @@ namespace AZ.lib.UnitTests
     public class UserTests
     {
         private User _user;
-        private IList<Book> _books;
 
         [TestMethod]
         public void UserHasAListOfOwnedBooks()

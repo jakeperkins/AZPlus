@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Should;
 
 namespace AZ.lib.UnitTests
 {
@@ -15,7 +16,7 @@ namespace AZ.lib.UnitTests
 		[TestMethod]
 		public void ShouldCompareTwoBooksThatAreDifferent()
 		{
-			GivenBookOneIs("SomeTitle", "SomeAuthor");
+            GivenBookOneIs("SomeTitle", "SomeAuthor", SomePrice);
 			GivenBookTwoIs("AnotherTitle", "AnotherAuthor");
 			WhenTheTwoBooksAreCompared();
 			ThenTheTwoBooksAreNotTheSame();
@@ -24,17 +25,31 @@ namespace AZ.lib.UnitTests
 		[TestMethod]
 		public void ShouldCompareTwoBooksThatAreTheSame()
 		{
-			GivenBookOneIs("SomeTitle", "SomeAuthor");
-			GivenBookTwoIs("SomeTitle", "SomeAuthor");
+            GivenBookOneIs("SomeTitle", "SomeAuthor", SomePrice);
+            GivenBookTwoIs("SomeTitle", "SomeAuthor");
 			WhenTheTwoBooksAreCompared();
 			ThenTheTwoBooksAreTheSame();
 		}
 
-		private void GivenBookOneIs(string title, string author)
+	    [TestMethod]
+	    public void BookShouldHavePrice()
+	    {
+	        GivenBookOneIs("SomeTitle", "SomeAuthor", SomePrice);
+	        ThenTheBookShouldHavePrice(SomePrice);
+	    }
+
+	    private void ThenTheBookShouldHavePrice(decimal price)
+	    {
+	        _bookOne.Price.ShouldEqual(price);
+	    }
+
+
+	    private void GivenBookOneIs(string title, string author, decimal price)
 		{
 			_bookOne.Title = title;
 			_bookOne.Author = author;
 			_bookOne.BookType = BookType.Hardback;
+	        _bookOne.Price = price;
 		}
 
 		private void GivenBookTwoIs(string title, string author)
@@ -62,5 +77,7 @@ namespace AZ.lib.UnitTests
 		private bool _bookComparison;
 		private Book _bookOne;
 		private Book _bookTwo;
+
+	    private const decimal SomePrice = (decimal) 5.99;
 	}
 }

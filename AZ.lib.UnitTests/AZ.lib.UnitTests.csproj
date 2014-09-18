@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="BookClubIdentifierTests.cs" />
     <Compile Include="BookTests.cs" />
+    <Compile Include="CartTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserTests.cs" />
     <Compile Include="SearchTests.cs" />

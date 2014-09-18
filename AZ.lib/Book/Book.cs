@@ -9,8 +9,9 @@ namespace AZ.lib
 		public string Author { get; set; }
 		public BookType BookType { get; set; }
 		public int DiscountPercentage { get; set; }
-		
-		public bool IsSameTitleAndAuthor(Book book)
+	    public decimal Price { get; set; }
+
+	    public bool IsSameTitleAndAuthor(Book book)
 		{
 			return Title == book.Title && Author == book.Author;
 		}
