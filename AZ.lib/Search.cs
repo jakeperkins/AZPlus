@@ -9,22 +9,27 @@ namespace AZ.lib
 
 	public class Search : ISearch
 	{
+		public Search() : this(new PaperBackDiscountRule()){}
+
+		public Search(IBookRule bookRule)
+		{
+			_bookRule = bookRule;
+		}
+
 		public IList<Book> GetBooks(User user)
 		{
 			foreach (var userBook in user.OwnedBooks)
 			{
-				foreach (var amazonBook in AmazonBooks)
+				for (var i = 0; i < AmazonBooks.Count; i++)
 				{
-					if (userBook.IsSameTitleAndAuthor(amazonBook) && userBook.BookType == BookType.Kindle &&
-					    amazonBook.BookType == BookType.Paperback)
-					{
-						amazonBook.DiscountPercentage = Discount;
-					}
+					AmazonBooks[i] = _bookRule.Execute(userBook, AmazonBooks[i]);
 				}
 			}
 
 			return AmazonBooks;
 		}
+
+		private readonly IBookRule _bookRule;
 
 		internal IList<Book> AmazonBooks = new[] 
 		{
@@ -32,7 +37,5 @@ namespace AZ.lib
 			new Book{Author = "author2", Title = "book2", BookType = BookType.Paperback},
 			new Book{Author = "author3", Title = "book3", BookType = BookType.Kindle}
 		};
-
-		private const int Discount = 10;
 	}
 }

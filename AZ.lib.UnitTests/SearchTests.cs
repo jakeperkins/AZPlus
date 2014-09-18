@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Should;
@@ -19,14 +18,40 @@ namespace AZ.lib.UnitTests
 		[TestMethod]
 		public void ShouldReturnDiscountedPaperbackBooks()
 		{
-			GivenAmazonHasTheseBooks(
-				new BookBuilder().WithAuthor("Author").WithTitle("Title").IsType(BookType.Hardback), 
-				new BookBuilder().WithAuthor("SomeAuthor").WithTitle("Title").IsType(BookType.Paperback)
-			);
+			var amazonBookOne = new BookBuilder().WithAuthor("Author").WithTitle("Title").IsType(BookType.Hardback);
+			var amazonBookTwo = new BookBuilder().WithAuthor("SomeAuthor").WithTitle("Title").IsType(BookType.Paperback);
+
+			GivenAmazonHasTheseBooks(amazonBookOne, amazonBookTwo);
 			GivenAUserWithOwnedBooks(new BookBuilder().WithAuthor("SomeAuthor").WithTitle("Title").IsType(BookType.Kindle));
 			WhenTheUserRequestsAmazonBooks();
-			TheDiscountOfTheBookIs(new BookBuilder().WithAuthor("SomeAuthor").WithTitle("Title"), 10);
-			TheDiscountOfTheBookIs(new BookBuilder().WithAuthor("Author").WithTitle("Title").IsType(BookType.Hardback), 0);
+			TheDiscountOfTheBookIs(amazonBookTwo, 10);
+			TheDiscountOfTheBookIs(amazonBookOne, 0);
+		}
+
+		[TestMethod]
+		public void ShouldNotReturnDiscountedPaperbackBooksBecauseUserDoesNotOwnKindleVersion()
+		{
+			var amazonBookOne = new BookBuilder().WithAuthor("Author").WithTitle("Title").IsType(BookType.Hardback);
+			var amazonBookTwo = new BookBuilder().WithAuthor("SomeAuthor").WithTitle("Title").IsType(BookType.Paperback);
+
+			GivenAmazonHasTheseBooks(amazonBookOne, amazonBookTwo);
+			GivenAUserWithOwnedBooks(new BookBuilder().WithAuthor("SomeAuthor").WithTitle("Title").IsType(BookType.Hardback));
+			WhenTheUserRequestsAmazonBooks();
+			TheDiscountOfTheBookIs(amazonBookTwo, 0);
+			TheDiscountOfTheBookIs(amazonBookOne, 0);
+		}
+
+		[TestMethod]
+		public void ShouldNotReturnAnyDiscountedBooksBecauseAmazonHasNoPaperbackVersions()
+		{
+			var amazonBookOne = new BookBuilder().WithAuthor("Author").WithTitle("Title").IsType(BookType.Hardback);
+			var amazonBookTwo = new BookBuilder().WithAuthor("SomeAuthor").WithTitle("Title").IsType(BookType.Kindle);
+
+			GivenAmazonHasTheseBooks(amazonBookOne, amazonBookTwo);
+			GivenAUserWithOwnedBooks(new BookBuilder().WithAuthor("SomeAuthor").WithTitle("Title").IsType(BookType.Kindle));
+			WhenTheUserRequestsAmazonBooks();
+			TheDiscountOfTheBookIs(amazonBookTwo, 0);
+			TheDiscountOfTheBookIs(amazonBookOne, 0);
 		}
 
 		private void TheDiscountOfTheBookIs(Book book, int discount)
@@ -52,39 +77,5 @@ namespace AZ.lib.UnitTests
 		private ISearch _search;
 		private User _user;
 		private IList<Book> _returnedBooksForUser;
-	}
-
-
-	public class BookBuilder
-	{
-		public BookBuilder()
-		{
-			book = new Book {BookType = BookType.Hardback};
-		}
-
-		public BookBuilder WithAuthor(string author)
-		{
-			book.Author = author;
-			return this;
-		}
-
-		public BookBuilder WithTitle(string title)
-		{
-			book.Title = title;
-			return this;
-		}
-
-		public BookBuilder IsType(BookType bookType)
-		{
-			book.BookType = bookType;
-			return this;
-		}
-
-		public static implicit operator Book(BookBuilder builder)
-		{
-			return builder.book;
-		}
-
-		private Book book;
 	}
 }

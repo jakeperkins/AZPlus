@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 
 namespace AZ.lib
 {
@@ -12,6 +10,9 @@ namespace AZ.lib
 		}
 
 		public IList<Book> OwnedBooks { get; set; }
+		public WishList WishList { get; set; }
+		public Kindle Kindle { get; set; }
+		public BookClub BookClub { get; set; }
 
 		public void BuysBook(Book book)
 		{
