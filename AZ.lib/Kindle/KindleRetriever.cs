@@ -7,20 +7,17 @@ namespace AZ.lib
 	{
 		public Kindle Retrieve(User user)
 		{
-			if (UserHasKindle(user))
+			if (!UserHasKindle(user)) return user.Kindle;
+			if (!UserIsInBookClub(user)) return user.Kindle;
+
+			var bookClubBooks = user.BookClub.Books.ToList();
+			var kindleBooks = user.Kindle.Books;
+
+			bookClubBooks = RemoveOwnedBooks(bookClubBooks, kindleBooks);
+
+			foreach (var bookClubBook in bookClubBooks)
 			{
-				if (UserIsInBookClub(user))
-				{
-					var bookClubBooks = user.BookClub.Books.ToList();
-					var kindleBooks = user.Kindle.Books;
-
-					bookClubBooks = RemoveOwnedBooks(bookClubBooks, kindleBooks);
-
-					foreach (var bookClubBook in bookClubBooks)
-					{
-						kindleBooks.Add(new KindleBook {Book = bookClubBook, ShowOnlyPreviewChapters = true});
-					}
-				}
+				kindleBooks.Add(new KindleBook {Book = bookClubBook, ShowOnlyPreviewChapters = true});
 			}
 			return user.Kindle;
 		}
