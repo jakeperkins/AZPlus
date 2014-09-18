@@ -15,5 +15,10 @@ namespace AZ.lib
 		{
 			return Title == book.Title && Author == book.Author;
 		}
+
+	    public bool IsSameEdition(Book book)
+	    {
+	        return Title == book.Title && Author == book.Author && BookType == book.BookType;
+	    }
 	}
 }
