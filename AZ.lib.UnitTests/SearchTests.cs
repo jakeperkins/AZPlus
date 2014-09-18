@@ -35,7 +35,7 @@ namespace AZ.lib.UnitTests
 			var amazonBookTwo = new BookBuilder().WithAuthor("SomeAuthor").WithTitle("Title").IsType(BookType.Paperback);
 
 			GivenAmazonHasTheseBooks(amazonBookOne, amazonBookTwo);
-			GivenAUserWithOwnedBooks(new BookBuilder().WithAuthor("SomeAuthor").WithTitle("Title").IsType(BookType.Hardback));
+			GivenAUserWithOwnedBooks(new BookBuilder().WithAuthor("Author").WithTitle("Title").IsType(BookType.Hardback));
 			WhenTheUserRequestsAmazonBooks();
 			TheDiscountOfTheBookIs(amazonBookTwo, 0);
 			TheDiscountOfTheBookIs(amazonBookOne, 0);
