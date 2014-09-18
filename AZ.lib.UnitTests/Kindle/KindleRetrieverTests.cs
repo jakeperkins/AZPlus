@@ -13,25 +13,27 @@ namespace AZ.lib.UnitTests.Kindle
 		{
 			_user = new User();
 			_returnedKindle = new lib.Kindle();
+			_bookOne = new BookBuilder().WithAuthor("author1").WithTitle("title");
+			_bookTwo = new BookBuilder().WithAuthor("author2").WithTitle("title2");
 		}
 
 		[TestMethod]
 		public void ShouldHydrateKindleWithPreviewChaptersFromBookClubSelection()
 		{
 			GivenAUserWithAKindle();
-			GivenAUsersBookClubHasBooks(new BookBuilder().WithAuthor("author1").WithTitle("title"));
+			GivenAUsersBookClubHasBooks(_bookOne);
 			WhenAmazonTriesToSetupAUsersKindle();
-			ThenTheKindleHasPreviewChaptersFor(new BookBuilder().WithAuthor("author1").WithTitle("title"));
+			ThenTheKindleHasPreviewChaptersFor(_bookOne);
 		}
 
 		[TestMethod]
 		public void ShouldHydrateKindleWithPreviewChaptersFromMutlipleBooksInAClubSelection()
 		{
 			GivenAUserWithAKindle();
-			GivenAUsersBookClubHasBooks(new BookBuilder().WithAuthor("author1").WithTitle("title"), new BookBuilder().WithAuthor("author2").WithTitle("title2"));
+			GivenAUsersBookClubHasBooks(_bookOne, _bookTwo);
 			WhenAmazonTriesToSetupAUsersKindle();
-			ThenTheKindleHasPreviewChaptersFor(new BookBuilder().WithAuthor("author1").WithTitle("title"));
-			ThenTheKindleHasPreviewChaptersFor(new BookBuilder().WithAuthor("author2").WithTitle("title2"));
+			ThenTheKindleHasPreviewChaptersFor(_bookOne);
+			ThenTheKindleHasPreviewChaptersFor(_bookTwo);
 		}
 
 		[TestMethod]
@@ -46,7 +48,7 @@ namespace AZ.lib.UnitTests.Kindle
 		public void ShouldNotDoAnythingDoToUserNotOwningAKindle()
 		{
 			GivenAUserWithNoKindle();
-			GivenAUsersBookClubHasBooks(new BookBuilder().WithAuthor("author1").WithTitle("title"), new BookBuilder().WithAuthor("author2").WithTitle("title2"));
+			GivenAUsersBookClubHasBooks(_bookOne, _bookTwo);
 			WhenAmazonTriesToSetupAUsersKindle();
 			ThenTheUserStillHasNoKindle();
 		}
@@ -55,11 +57,11 @@ namespace AZ.lib.UnitTests.Kindle
 		public void ShouldNotAddPreviewChaptersIfUserAlreadyOwnsBook()
 		{
 			GivenAUserWithAKindle();
-			GivenAUsersKindleHasBooks(new BookBuilder().WithAuthor("author1").WithTitle("title"));
-			GivenAUsersBookClubHasBooks(new BookBuilder().WithAuthor("author1").WithTitle("title"), new BookBuilder().WithAuthor("author2").WithTitle("title2"));
+			GivenAUsersKindleHasBooks(_bookOne);
+			GivenAUsersBookClubHasBooks(_bookOne, _bookTwo);
 			WhenAmazonTriesToSetupAUsersKindle();
-			ThenTheKindleHasPreviewChaptersFor(new BookBuilder().WithAuthor("author2").WithTitle("title2"));
-			ThenTheKindleDoesNotHavePreviewChaptersFor(new BookBuilder().WithAuthor("author1").WithTitle("title"));
+			ThenTheKindleHasPreviewChaptersFor(_bookTwo);
+			ThenTheKindleDoesNotHavePreviewChaptersFor(_bookOne);
 		}
 
 		private void ThenTheKindleHasNoNewBooksOrPreviewChapters()
@@ -107,7 +109,8 @@ namespace AZ.lib.UnitTests.Kindle
 		{
 		}
 
-
+		private Book _bookOne;
+		private Book _bookTwo;
 		private lib.Kindle _returnedKindle;
 		private User _user;
 	}
