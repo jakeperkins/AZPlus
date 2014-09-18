@@ -23,7 +23,6 @@ namespace AZ.lib
 				for (var i = 0; i < AmazonBooks.Count; i++)
 				{
 					AmazonBooks[i] = _bookRule.Execute(userBook, AmazonBooks[i]);
-					
 				}
 			}
 

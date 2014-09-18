@@ -44,9 +44,12 @@
     <Compile Include="BookClubIdentifier.cs" />
     <Compile Include="Book\BookType.cs" />
     <Compile Include="IBookRule.cs" />
+    <Compile Include="Kindle\KindleRetriever.cs" />
     <Compile Include="PaperBackDiscountRule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Search.cs" />
+    <Compile Include="Kindle\Kindle.cs" />
+    <Compile Include="Kindle\KindleBook.cs" />
     <Compile Include="User\User.cs" />
     <Compile Include="WishList.cs" />
     <Compile Include="WishListBook.cs" />
